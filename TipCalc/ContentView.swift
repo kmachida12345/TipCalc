@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var amount = ""
-    @State private var tip = 0.0
+    @State private var tip = ""
     @State private var showAlert = false
 
     var body: some View {
@@ -17,6 +17,11 @@ struct ContentView: View {
             Form {
                 Section(header: Text("請求額")) {
                     TextField("金額を入力", text: $amount)
+                        .keyboardType(.decimalPad)
+                }
+                
+                Section(header: Text("倍率")) {
+                    TextField("倍率を入力", text: $tip)
                         .keyboardType(.decimalPad)
                 }
 
@@ -39,7 +44,6 @@ struct ContentView: View {
     }
 
     func calculateTip() -> Double {
-        let tipPercentage = 0.10
 
         if amount.isEmpty {
             return 0.0
@@ -51,7 +55,7 @@ struct ContentView: View {
             }
             return 0.0
         }
-        return amountValue * tipPercentage
+        return amountValue * (Double(tip) ?? 0.0)
      }
 }
 
